@@ -1,0 +1,320 @@
+
+
+http://www.kdnuggets.com/2015/11/seven-steps-machine-learning-python.html
+
+0. Dokumentacja: http://www.scipy.org/
+http://planetpython.org/
+
+1. W pythonie zamiast nawiasów klamrowych wyznaczających działnie pętli stosowane są wcięcia
+
+2. Biblioteki:
+	SciPy ecosystem (składowe to Pandas, Matplotlib)
+	Numpy - tablice i macierze  (import numpy as np)
+	string (?)
+	
+3. W pythonie są 3 podstawowe typy: wekory (tuples), listy i słowniki. 
+Wekory mogą mieć składowe różnych typów: x = (1, 'a', 7, 'eee'). Tuple wprowadza się za pomocą nawiasów okrągłych. Nie można modyfikować tuple'a!!!
+Listy wprowadza się za pomocą nawiasów kwadratowych: x = [1, 'a', 7, 'eee']
+
+działania na listach/tuplach
+(2,3,1)+('a','b') --> (2, 3, 1, 'a', 'b')
+(1, 3, 9, 3, 2) * 3 --> (1, 3, 9, 3, 2, 1, 3, 9, 3, 2, 1, 3, 9, 3, 2)
+3 in (2,3,1) --> true
+
+3a. Listy
+z = [2,1]
+z.append([2, 'a', 77])
+[2, 1, [2, 'a', 77]]
+
+a[start:end] # items start through end-1
+a[start:]    # items start through the rest of the array
+a[:end]      # items from the beginning through end-1
+a[:]         # a copy of the whole array
+
+l = [1,2,3,4,5]
+l[0:4:2] --> [1, 3]    (l[lower:upper:step])
+
+Usuwanie/dodawanie do listy
+l = [9,2,9,3]
+del l[1]	
+del l[1:3]
+uwaga!
+	
+l.remove(2) --> usunięcie pierwszego wystąpienia liczby 2
+	
+l = [1, 2, 3, 4]	
+l.insert(2, 0) --> [1, 2, 0, 3, 4]   #wstaw 0 na pozycji 2 (+1)
+
+l = []  #tworzenie pustej listy
+l = [4]
+l.append([5,6])	--> [4, 5, 6]
+l.extend([5,6]) --> [4, 5, 6, [5, 6]]
+
+Zliczanie wystąpień elementów listy:
+	l = [1, 2, 6, 2, 3, 1, 1]
+	l.count(l[0])  --> 3
+
+sortowanie	
+	l = [1, 2, 6, 2, 3, 1, 1]
+	l.sort() --> [1, 1, 1, 2, 2, 3, 6]
+
+l.reverse() --> odwracanie listy
+
+3b. Słowniki	
+słowniki oznacza się nawiasami klamrowymi {}. Podaje się wartość i klucz. Odwoływać się można po wartości i kluczu.	Klucz nie musi być stringiem, może być innym 
+obiektem, ale obiektem niezmienialnym jak tuple, string, integer
+x = {'cena': 2.43, 'waluta': 'PLN', 'przedmiot': 'zapałki'}
+x.values() --> ['zapa\xc5\x82ki', 2.43, 'PLN']
+x.keys()  --> ['cena', 'waluta', 'przedmiot']
+x.items()  --> [('przedmiot', 'zapa\xc5\x82ki'), ('cena', 2.43), ('waluta', 'PLN')]
+for a in x:
+    print(x[a])
+#zapałki
+#2.43
+#PLN
+	
+d = {"city":"Santa Barbara", "state":"CA", "zip":"93106"}
+odwoływanie sie do wartości:
+		d["city"]  --> 'Santa Barbara'
+dodawanie nowego elementu do słownika:
+		d["street"] = "Calle Real"
+usuwanie elementu ze słownika:
+		del d["street"]
+czy klucz występuje w słowniku:
+		"city" in d
+rozmiar słownika	
+		len(d)
+Usuwanie wszystkich elementów słownika (słownik nie znika, staje się tylko słownikiem pustym)
+	d.clear()
+Tworzenie słownika z listy złożonych z tupli
+	l = [("street", "Calle Real"), ("school", "UCSB")]
+	dict(l)
+	
+3c. Unpacking: 
+y = (1,2,3)
+a, b, c = y
+
+x = 1
+y = 4
+x, y = y, x --> x przyjmie wartość 4, y wartość 1, czyli podmiana:)
+
+
+4. Funkcje
+Struktura
+def nowa_funkcja(a, b, c = 1):
+	if c == 1:
+		a, b = c, c
+	else:
+		a = 2
+		b = 3
+	return a+b+c	
+
+Funkcja, która nic nie zwraca, a ściślej zwraca wartość specjalną None (to chyba taki NULL)	
+def nowa_funkcja2(x):
+	print x
+	return		
+
+r = nowa_funkcja2('abc')
+r == None  #True
+r is None  #True
+	
+type(2)('1') --> rzutowanie typu obiektu '1' (tu string) na typ obiektu 2. Czyli wynikiem jest 1.	
+type('2')(1) --> wynikiem jest '1'
+type('2')    --> wynikiem jest str
+
+Zwracanie więcej niż jednej wartości. Zwrócony zostanie tuple. 
+def nowa_funkcja(a, b, c = 1):
+	return a, b, c
+	
+
+Funkcja może być argumentem innej funkcji, można przypisać funkcję do jakiegoś obiektu (np. b = nowa_funkcja)
+def squareme(x): 
+	return x*x 
+def applytolist(l, fn):
+	return [fn(ele) for ele in l] 
+l = [1, 7, 9] 
+applytolist(l, squareme) --> [1, 49, 81]
+	
+Argumenty funkcji z wartością domyślną muszą być umieszczone za argumentami bez podanych wartości domyślnych 	
+
+
+Dokumentacja funkcji: w linii pod słowem kluczowym def wprowadza się 3 znaki " po których następuje opis. Opis zamka się 3 znakami ". Dokumentacja widoczna jest w help!
+def a(x, y):
+"""Adds two variables x and y, of any type. Returns single value.""" 
+	return x + y
+
+
+5. Metoda format w obróbce stringów - odpowiednik funkcji paste w R.
+
+6. Python uses backslashes to encode special characters. For example:
+tab_string = "\t" # represents the tab character
+
+7. Czytanie plików csv
+
+8. lambda - prosta funkcja:   def lambda arg1, arg2: arg1+arg2     -> zwraca tu sumę dwóch liczb. W lambda nie ma argumentów domyślnych
+
+9. list comprehensions - tworzenie nowej listy z innych obiektów (list, tupli, innych iterowanych obiektów)
+	dwie struktury:
+	[expression for object in iterable]
+	[expression for object in iterable if condition]
+	
+my_list = [number for number in range(0,1000) if number % 2 == 0]
+zamiast rozbudowanego kodu:
+	my_list = []
+	for number in range(0,1000):
+		if number % 2 == 0:
+			my_list.append(number)
+	my_list
+	
+[k for k in 'Python']	--> zwraca listę ['P', 'y', 't', 'h', 'o', 'n']
+można też wielowymiarowo: 
+	[[i,j, k] for i in range(3) for j in range(3) for k in range(3)]
+można nawet tak: 
+	[[j,k] for j in range(4) if j < 3 for k in range(4) if j < k < 3]   Python rozumie warunek 'j < k < 3' :):):)
+inny przykład:
+	[s[0] for s in ["blue", "red", "green", "yellow"] if "l" in s]  --> ['b', 'y']
+
+	
+	
+10. numpy
+mylist = [1,2,3]
+x = np.array(mylist)
+y = np.array([1,2,3], [4,5,6])
+y.shape   #zwraca wymiary macierzy
+z = np.arrange(0,30,2)
+z.reshape(3,5)  #dokonuje zmiany wymiarów obiektu  z. To różnica w porównaniu z z.reshape - z.reshape tylko wyświetla zmianę, bo gdy wpiszemy z.shape otrzymamy stre wymiary.
+z.resize #również zmienia wymiary (jaka jes różnica między resize i reshape?)
+w = np.linspace(0,4,9)  #tworzy array (siatkę) 9-ciu elementów z równomiernym podziałem między 0 a 4.		
+np.ones(3,4, int) #macierz jedynek
+np.zeros(3,4) #macierz zer
+np.eye(3,3) # macierz diagonalna
+np.diag(z) #macierz diagonalna z macierzy z
+np.array([1,2,3]*3)  # array([1,2,3,1,2,3,1,2,3])
+np.repeat([1,2,3],3) # array([1,1,1,2,2,2,3,3,3])
+np.vstack([z,2*z])  # odpowiednik rowbind
+np.hstack([np.ones([2,3],int), 2*np.ones([2,3],int)])  #odpowiednik cbind
+  #array([[1, 1, 1, 2, 2, 2],
+  #     [1, 1, 1, 2, 2, 2]])
+a.dot(b) # mnożenie macierzowe  
+a.T #transpozycja macierzy a
+a.T.shape # wymiary transponowane	j macierzy a
+a=np.array([1,2,3,4,5])
+a.min, a.max, a.sum, a.std, a.argmin, a.argmax
+a[2] # 3-ci wiersz macierzy
+a[2,1] # element z 3-go wiersza i 2-giej kolumny
+a[2,1:2] #2-gi element z 3-go wiersza
+a[:2,:-1] #pierwsze dwa wiersze, ale bez ostatniej kolumny
+a[:,::2] # co druga kolumna i każdy wiersz
+a[a>2]
+a[a>2]=-1
+uwaga:
+b=a[:1,:1], b[:]=0  ==> fragment macierzy a, która posłużyła do utworzenia b również się zmieni na 0!!!!
+żeby uniknąć takiej sytuacji należy b zdefiniować następująco b = a.copy()[:1,:1] 
+To czy a, b wskazują na te same obiekty można zweryfikować za pomocą operatora is:
+	a is b --> True/False
+
+
+pętle po dwóch indeksach:
+for i, row in range(len(a)):
+	print('row', i, 'is', row)   # wyrzuci po kolei wszystkie wiersze
+
+for i, j in zip(a,b)
+	print(i, '+', j, '=', i+j)
+
+
+11. pandas
+import pandas as pd
+pd.Series  #data structure
+x = ['a', 'b', 'c']
+pd.Series(x)
+
+b = np.arange(3*4*5*6)[::-1].reshape((5,4,6,3))
+
+12. Stringi
+Ważne: string jest listą! Każdy znak w stringu to element listy i można się do niego odnieść poprzez indeks.
+rozbijanie stringów: 
+	'ahhahhadjjddj'.split('j') --> ['ahhahhad', '', 'dd', '']  #rozbicie po znaku 'j', domyślnie jest po whitespace (np.: ' ', \n)
+scalanie stringów:
+	l = ['This', 'is', 'a', 'string.', 'Hello.']
+	' '.join(l) --> 'This is a string. Hello.'
+	''.join(l)  --> 'Thisisastring.Hello.'
+Inne ważne operacje	
+	"  string\n\n ".strip() --> "string"
+	"We code in Python. We like it.".replace("We", "You")  --> 'You code in Python. You like it.'
+	s = "This is a string."
+	"is" in s --> True
+	s.index("is") --> 2
+	s.lower()
+	s.upper()
+	s.startswith("th")
+	s.endswith(".")
+	
+	"string".isalpha() --> True
+	"string.".isalpha() --> False
+	
+	"12834".isdigit() --> True
+	"50 cars".isdigit() --> False
+	
+13. Znaki specjalne w stringach
+\n -> nowa linia w stringu: "Ala ma \nkota"
+\t -> tab
+\' -> apostrof "I\'m ok"
+\\ -> backslash
+%% -> znak procenta (% jest znakiem specjalnym ze względu na pkt 14.)
+string poprzedzony literą r pozwala na jawne użycie znaków specjalnych r"This string will not recognize \t and \n." (taki dokładnie tekst się pojawi)
+
+14. wartości numeryczne w stringach (odpowiednik R-owego paste)
+"The value of pi is %8.3f." % 3.141592  --> wynikiem będzie string: The value of pi is     3.142
+%- oznacza początek formatowania.
+8 - całkowita liczba liczba znaków, którą zajmować będzie wyświetlana liczba. 
+3 - pokazywane bęą trzy cyfry po przecinku
+f - wyświetlaj liczbę jako float  (e oznaczać będzie notację wykładniczą
+% - kolejny znak % oznacza że nastąpi liczba, która ma zostać wyświetlona
+
+"The value of pi is %.3f." % 3.141592  --> unikamy wydłużonej spacji w wyświetlanym wyżej stringu
+Można też tak:
+	print "Stół ma wymiar %.2f na %.2f." % (5.25, 12.47)
+Więcej: "An introduction to Python for scientific computing", str 13-15 (plik python.pdf)
+
+15. Statement IF
+
+if x > 3:
+	print 'a'
+elif x > 0:
+	print 'b'
+else:
+	print 'c'
+
+16. Pętla FOR
+l = [(1, 2), (3, 4), (5, 6)]
+for (a,b) in l:
+	print a+b
+	
+można użyć break, aby wyjść z pętli	
+for i in range(3):
+	for j in range(3):
+		if i <= j: break 
+		print (i, j)	
+	
+17. Pętla WHILE
+Przykład. Od razu z pythonowymi trikami
+k1, k2 = 1, 1 
+while k1 < 20: 
+	k1, k2 = k2, k1 + k2 
+	print k1
+	
+	
+18. Import pakietów/funkcji z pakietów
+import numpy as np  #import zainstalowanego pakietu. Używanie funkcji array tylko tak: np.array()
+from numpy import array	 #import tylko jednej funkcji z numpy. Używanie funkcji array: po prostu array()
+from scipy.linalg import inv as my_inv #ładowanie funkcji z podpakietu
+
+
+19. Boolean
+ x = 5
+ x < 7 and x > 1  --> True
+ x > 5 or x < 1 --> False
+ 
+	
+https://www.linkedin.com/groups/77616/77616-6242102721391001604?midToken=AQEilEZJgFMcqQ&trk=eml-b2_anet_digest_of_digests-hero-12-view%7Ediscussion&trkEmail=eml-b2_anet_digest_of_digests-hero-12-view%7Ediscussion-null-3ucrm%7Eizq
+https://www.linkedin.com/groups/77616/77616-6242102721391001604?midToken=AQEilEZJgFMcqQ&trk=eml-b2_anet_digest_of_digests-hero-12-view%7Ediscussion&trkEmail=eml-b2_anet_digest_of_digests-hero-12-view%7Ediscussion-null-3ucrm%7Eizqssp46%7Eqd&lipi=urn%3Ali%3Apage%3Aemail_b2_anet_digest_of_digests%3BS5j%2BybzJSH%2BCBXbVtHklQw%3D%3D
